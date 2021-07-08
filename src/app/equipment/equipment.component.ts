@@ -15,7 +15,7 @@ export class EquipmentComponent implements OnInit {
        {name: 'ISS Supplies', mass: 800},
        {name: 'Water', mass: 250},
        {name: 'Satellite', mass: 1200},
-       {name: 'R2 Unit', mass: 32}
+       {name: 'R2 Unit', mass: 32},
    ];
    cargoHold: object[] = [];
    cargoMass: number = 0;
@@ -26,6 +26,32 @@ export class EquipmentComponent implements OnInit {
 
    ngOnInit() { }
 
-   // Code your addItem function here:
+   addItem(equipment: object) : boolean {
+    let cargoMass = this.cargoMass; 
+    this.cargoHold.push(equipment);
+    this.cargoMass = (cargoMass + equipment['mass']);
+    if (this.cargoMass <= 1800){
+      return true;
+    }else{
+      return false;
+    }
+   }
+
+   isIneligible(item: object): boolean {
+     if (this.cargoHold.length === this.maxItems || this.cargoMass + item['mass'] > this.maximumAllowedMass){
+       return true;
+     } else {
+       return false;
+     }
+   }
+
+   calculateMassRemaining(): number{
+     return 2000 - this.cargoMass;
+   }
+   
+   emptyHold(){
+     this.cargoHold = [];
+     this.cargoMass = 0;
+   }
    
 }
